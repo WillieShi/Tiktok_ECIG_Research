@@ -36,7 +36,7 @@ for i in range(num_scrapes):
     next_but = driver.find_element_by_xpath('//*[@id="app"]/div[2]/div[3]/div[1]/button[3]')
     next_but.click()
     time.sleep(1)
-    
+
 #get last off by one     
 url = driver.current_url
 url_file.write(url.replace("?is_copy_url=1&is_from_webapp=v1&lang=en", "") + "\n")
