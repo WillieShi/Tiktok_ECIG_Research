@@ -3,8 +3,6 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
-
-
 #WINDOWS INSTRUCTIONS: Run these commands in command prompt
 #cd C:\Program Files (x86)\Google\Chrome\Application
 #chrome.exe --remote-debugging-port=8989 --user-data-dir="C:\Users\willi\OneDrive\Documents\Research\Media Lab-Ecig\chromeprofile"
@@ -34,8 +32,13 @@ for i in range(num_scrapes - 1):
     next_but = driver.find_element_by_xpath('//*[@id="app"]/div[2]/div[3]/div[1]/button[3]')
     next_but.click()
     time.sleep(1)
+    
 #off by one error
 video_links.add(driver.current_url)
 
-for link in video_links:
-    print(link)
+#write the urls to file
+url_file = open("urls.txt", "w")
+for url in video_links:
+    url_file.write(url + "\n")
+url_file.close()
+
