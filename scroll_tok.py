@@ -10,35 +10,35 @@ import time
 #IMPORTANT: Have to prelog into tiktok, can't use selenium to autolog since you will be flagged as a bot
 opt=Options()
 opt.add_experimental_option("debuggerAddress", "localhost:8989")
+driver = webdriver.Chrome(ChromeDriverManager().install() ,chrome_options=opt)
+driver.get('https://www.tiktok.com/foryou?lang=en')
 
 #Set Number of Video urls you want to get:
 num_scrapes = 10
 
-#List of video ids
-video_links = []
-
-driver = webdriver.Chrome(ChromeDriverManager().install() ,chrome_options=opt)
-driver.get('https://www.tiktok.com/foryou?lang=en')
-
 #click video on for you page
+time.sleep(1)
 vid_link = driver.find_element_by_xpath('//*[@id="app"]/div[2]/div[2]/div[1]/div[1]/div/div[2]/div[1]/div/div[1]/div/video')
 vid_link.click()
 
-#give page a seconds to load
-time.sleep(1)
+#write the urls to file
+url_file = open("urls.txt", "w")
 
-for i in range(num_scrapes - 1):
-    video_links.add(driver.current_url)
+#give page a seconds to load
+time.sleep(3)
+
+for i in range(num_scrapes):
+    #write the url to file
+    url = driver.current_url
+    url_file.write(url.replace("?is_copy_url=1&is_from_webapp=v1&lang=en", "") + "\n")
+
+    #go to next video
     next_but = driver.find_element_by_xpath('//*[@id="app"]/div[2]/div[3]/div[1]/button[3]')
     next_but.click()
     time.sleep(1)
     
-#off by one error
-video_links.add(driver.current_url)
-
-#write the urls to file
-url_file = open("urls.txt", "w")
-for url in video_links:
-    url_file.write(url + "\n")
+#get last off by one     
+url = driver.current_url
+url_file.write(url.replace("?is_copy_url=1&is_from_webapp=v1&lang=en", "") + "\n")
 url_file.close()
 
